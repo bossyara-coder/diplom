@@ -1,0 +1,130 @@
+.admin-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-add {
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.alert-success {
+    color: green;
+    margin-bottom: 20px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.admin-table thead tr {
+    background: #f4f4f4;
+    text-align: left;
+}
+
+.admin-table th, .admin-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.product-img-preview {
+    width: 50px;
+}
+
+
+
+
+
+
+/* Контейнер для кнопок в шапке */
+.admin-nav-links {
+    display: flex;
+    gap: 15px; /* Расстояние между кнопками */
+    align-items: center;
+}
+
+/* Стили для кнопки возврата в каталог */
+.btn-catalog {
+    background: #6c757d; /* Спокойный серый цвет */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-catalog:hover {
+    background: #5a6268;
+    color: #fff;
+}
+
+/* Убедись, что .admin-header всё еще корректно распределяет место */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+
+/* Контейнер для кнопок действий в таблице */
+.actions-cell {
+    display: flex;
+    gap: 10px;       /* Расстояние между кнопками */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Общий стиль для кнопок админки (чтобы они были одного размера) */
+.btn-edit, .btn-delete {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+/* Кнопка Редактировать */
+.btn-edit {
+    background: #ffc107;
+    color: #212529;
+}
+
+.btn-edit:hover {
+    background: #e0a800;
+}
+
+/* Кнопка Удалить (у тебя она уже была, просто убедимся в отступах) */
+.btn-delete {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+/* Убираем лишние отступы у формы, чтобы она не ломала ряд */
+.form-inline {
+    margin: 0;
+    display: inline;
+}

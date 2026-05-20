@@ -1,0 +1,38 @@
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box; /* Чтобы padding не раздувал ширину */
+}
+
+.btn-submit {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.link-back {
+    display: block;
+    text-align: center;
+    color: #666;
+    margin-top: 15px;
+    text-decoration: none;
+}

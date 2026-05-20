@@ -1,0 +1,139 @@
+/* Обнуляем влияние стилей каталога на страницу товара */
+.product-page-main {
+    padding: 40px 20px;
+    background-color: #f9f4ed; /* Твой основной фон */
+    min-height: calc(100vh - 380px); /* Чтобы футер не прыгал вверх */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Основной контейнер товара (перекрываем .product-item из каталога) */
+.product-detail-wrapper.product-item {
+    display: flex;
+    flex-direction: row; /* В ряд на десктопе */
+    width: 100%;
+    max-width: 1100px;
+    height: auto; /* Убираем фиксированную высоту 550px */
+    background: white;
+    padding: 40px;
+    gap: 50px;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-radius: 15px;
+}
+
+/* Сетка для фото */
+.product-gallery {
+    flex: 1;
+    max-width: 500px;
+}
+
+.main-img-container {
+    background-color: #fdfdfd;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #eee;
+}
+
+.main-img-container img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Сетка для информации */
+.product-info-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.category-tag {
+    color: #fc3e57;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Заголовок (убираем центрирование из h1 каталога) */
+.product-info-column h1.pr-title {
+    text-align: left;
+    margin: 10px 0;
+    font-size: 2.2rem;
+    line-height: 1.2;
+    color: #14151b;
+}
+
+.product-info-column .pr-price {
+    font-size: 1.8rem;
+    color: #fc3e57;
+    font-weight: 900;
+    margin-bottom: 25px;
+}
+
+.product-description, .product-specs {
+    margin-bottom: 25px;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 15px;
+}
+
+.product-description h3, .product-specs h3 {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.product-description p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.product-specs ul {
+    list-style: none;
+    padding: 0;
+}
+
+.product-specs li {
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #ddd;
+}
+
+/* Кнопка */
+.buy-button {
+    width: 100%;
+    max-width: 300px;
+    height: 55px;
+    margin-top: auto; /* Прижимаем к низу если инфо мало */
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 850px) {
+    .product-detail-wrapper.product-item {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .product-info-column {
+        width: 100%;
+    }
+
+    .product-info-column h1.pr-title {
+        font-size: 1.6rem;
+    }
+}
+
+/* Исправление футера (чтобы не налезал) */
+footer {
+    clear: both;
+    position: relative;
+    z-index: 10;
+}
