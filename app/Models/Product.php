@@ -11,7 +11,19 @@ class Product extends Model
         'name', 
         'price', 
         'image', 
-        'category', 
+        'category',
+        'article', 
         'description'
     ];
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
+

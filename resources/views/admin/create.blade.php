@@ -15,10 +15,26 @@
     <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
+
+
         <div class="form-group">
             <label>Название товара:</label><br>
             <input type="text" name="name" required class="form-input">
         </div>
+
+
+        <div class="form-group">
+            <label>Артикул (6 цифр):</label><br>
+            <div class="article-input-group">
+                <input type="text" name="article" id="article" value="{{ old('article') }}" maxlength="6" pattern="\d{6}" required class="form-input" placeholder="Например: 123456">
+                <button type="button" id="generateArticleBtn" class="btn-generate">Сгенерировать</button>
+            </div>
+            @error('article')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
+        </div>
+
+
 
         <div class="form-group">
             <label>Категория:</label><br>
@@ -55,6 +71,16 @@
         <a href="{{ route('admin.index') }}" class="link-back">Назад в список</a>
     </form>
 </div>
+
+
+<script>
+    document.getElementById('generateArticleBtn').addEventListener('click', function() {
+        // Генерируем случайное число от 100000 до 999999
+        const randomArticle = Math.floor(100000 + Math.random() * 900000);
+        document.getElementById('article').value = randomArticle;
+    });
+</script>
+
 
 </body>
 </html>

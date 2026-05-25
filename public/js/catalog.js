@@ -1,13 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // ========== Каталог: Фильтрация, сортировка и поиск ==========
+    // ========== Глобальный поиск, фильтрация и сортировка ==========
     const filterButtons = document.querySelectorAll('.filter-button');
     const sortButtons = document.querySelectorAll('.price-sort');
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
     const productsContainer = document.querySelector('.products');
     
-    if (!productsContainer) return; // Прерываем работу скрипта, если мы не на странице каталога
+    // === ЛОГИКА ДЛЯ ВСЕХ СТРАНИЦ КРОМЕ КАТАЛОГА ===
+    if (!productsContainer) { 
+        if (searchInput && searchButton) {
+            // Функция отправки пользователя на страницу каталога с параметром query
+            const redirectToCatalog = () => {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // Перенаправляем на /catalog?search=текст_запроса
+                    window.location.href = '/catalog?search=' + encodeURIComponent(query);
+                } else {
+                    // Если поле пустое, просто открываем каталог
+                    window.location.href = '/catalog';
+                }
+            };
 
+            // Клик по кнопку "Поиск"
+            searchButton.addEventListener('click', redirectToCatalog);
+
+            // Нажатие клавиши Enter в поле ввода
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    redirectToCatalog();
+                }
+            });
+        }
+        return; // Прерываем выполнение скрипта каталога, так как мы на другой странице
+    }
+
+    // === ЛОГИКА ИСКЛЮЧИТЕЛЬНО ДЛЯ СТРАНИЦЫ КАТАЛОГА ===
     const originalTitles = new Map();
     document.querySelectorAll('.product-item .pr-title').forEach(titleEl => {
         originalTitles.set(titleEl.closest('.product-item'), titleEl.textContent);
@@ -29,19 +56,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateProducts() {
         let filteredProducts = allProducts.filter(product => {
+            // Проверка по категории
             if (currentFilter !== 'all' && product.dataset.category !== currentFilter) {
                 return false;
             }
             
+            // Проверка по поисковому запросу
             if (currentSearch) {
                 const title = normalizeSearchTerm(product.querySelector('.pr-title').textContent);
                 const price = product.querySelector('.pr-price').textContent.toLowerCase();
                 const category = product.dataset.category.toLowerCase();
                 
+                // Считываем скрытый артикул из data-атрибута карточки
+                const article = product.dataset.article ? product.dataset.article.toLowerCase() : '';
+                
                 const normalizedSearch = normalizeSearchTerm(currentSearch);
+                
                 const matches = title.includes(normalizedSearch) || 
                               price.includes(normalizedSearch) || 
-                              category.includes(normalizedSearch);
+                              category.includes(normalizedSearch) ||
+                              article.includes(normalizedSearch);
                 
                 if (!matches) return false;
             }
@@ -49,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return true;
         });
 
+        // Сортировка по цене
         if (currentSort) {
             filteredProducts.sort((a, b) => {
                 const priceA = parseFloat(a.dataset.price);
@@ -57,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // Отрисовка товаров
         productsContainer.innerHTML = '';
         filteredProducts.forEach(product => {
             const titleElement = product.querySelector('.pr-title');
@@ -78,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productsContainer.appendChild(product);
         });
 
+        // Сообщение "Товары не найдены"
         const noResultsMsg = document.getElementById('no-results-message');
         if (filteredProducts.length === 0 && (currentFilter !== 'all' || currentSearch)) {
             if (!noResultsMsg) {
@@ -96,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Обработчики кнопок фильтров
     if (filterButtons.length > 0) {
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -105,9 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateProducts();
             });
         });
-        filterButtons[0].classList.add('active');
     }
 
+    // Обработчики кнопок сортировки
     if (sortButtons.length > 0) {
         sortButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -126,9 +164,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Обработчики поисковой строки в самом каталоге
     if (searchInput && searchButton) {
         let searchTimer;
         
+        // Живой поиск при вводе текста
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimer);
             searchTimer = setTimeout(() => {
@@ -137,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         });
 
+        // Кнопка очистить (в каталоге)
         searchButton.addEventListener('click', function() {
             searchInput.value = '';
             currentSearch = '';
@@ -144,15 +185,25 @@ document.addEventListener('DOMContentLoaded', function() {
             searchInput.focus();
         });
 
+        // Очистка по Esc
         searchInput.addEventListener('keyup', function(e) {
             if (e.key === 'Escape') {
                 this.value = '';
                 currentSearch = '';
-                searchButton.style.display = 'none';
                 updateProducts();
             }
         });
     }
 
-    updateProducts();
+    // === ПОДХВАТ ПАРАМЕТРА ИЗ URL ПРИ ЗАГРУЗКЕ КАТАЛОГА ===
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlSearch = urlParams.get('search');
+    
+    if (urlSearch && searchInput) {
+        searchInput.value = urlSearch; // Вставляем текст в инпут каталога
+        currentSearch = urlSearch;     // Передаем в переменную поиска
+    }
+
+    // Запускаем первичный вывод/фильтрацию товаров
+    updateProducts(); 
 });

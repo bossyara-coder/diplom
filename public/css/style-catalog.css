@@ -1,11 +1,8 @@
-
-
-
- body {
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f4ed;
+    background-color: #f8f9fa;
 }
 
 .header {
@@ -132,7 +129,7 @@
     padding: 20px;
 }
 
-h1 {
+.cataloger {
     text-align: center;
     color: #14151b;
 }

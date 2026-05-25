@@ -36,3 +36,39 @@
     margin-top: 15px;
     text-decoration: none;
 }
+
+
+
+
+/* Стили для поля артикула и кнопки генерации */
+.article-input-group {
+    display: flex;
+    gap: 10px; /* Расстояние между полем и кнопкой */
+    margin-top: 5px;
+}
+
+/* Переопределяем ширину, чтобы инпут занял всё свободное место */
+.article-input-group .form-input {
+    flex: 1; 
+}
+
+/* Стили кнопки "Сгенерировать" */
+.btn-generate {
+    background: #6c757d; /* Приятный серый цвет, чтобы не отвлекать от синей кнопки "Сохранить" */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap; /* Чтобы текст на кнопке не переносился на новую строку */
+}
+
+.btn-generate:hover {
+    background: #5a6268;
+}
+
+/* Стиль для текста ошибки уникальности */
+.error-text {
+    color: #dc3545; /* Красный цвет ошибки */
+    font-size: 0.85rem;
+    margin-top: 5px;
+}

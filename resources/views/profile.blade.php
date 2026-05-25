@@ -5,44 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль</title>
     <link rel="stylesheet" href="{{ asset('css/style-profl.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style-catalog.css') }}">
+    <meta name="auth-check" content="{{ Auth::check() ? 'true' : 'false' }}">
+
 </head>
 <body>
-    <header class="header">
-        <div class="logo">
-          <a href="{{ route('home')}}">
-          <img src="{{asset('image/TB.png')}}" alt="TRAILBLAZE">
-          </a>
-            
-        </div>
+    <div id="laravel-cart-data" data-cart='@json(session("cart", []))' style="display: none;"></div>
 
-        <div class="header-kateg">
-        <a href="{{ route('catalog') }}">
-            <p>СКЕЙТБОРДЫ</p>  
-         </a>
-         <a href="{{ route('catalog') }}">
-          <p>ОДЕЖДА</p>
-         </a>
-         <a href="{{ route('catalog') }}">
-          <p>ОБУВЬ</p>
-         </a>
-         <a href="{{ route('catalog') }}">
-         <p>АКССЕСУАРЫ</p>
-         </a>
-        </div>
+<header class="header">
+    <div class="logo">
+       <a href="{{ route('home') }}">
+          <img src="{{ asset('image/TB.png') }}" alt="TRAILBLAZE">
+       </a> 
+    </div>
 
-        <div class="nav-buttons">
-            <a href="{{ route('catalog') }}">
-             
-                <!-- <img src="{{asset('image/search.svg')}}" alt="поиск" onclick="window.location.href='#'"> -->
-            </a>
-            <a href="{{ route('catalog') }}">
-            <img src="{{asset('image/korzina.svg')}}" alt="корзина" onclick="window.location.href='#'">
-            </a>
-            <a href="{{ route('profl') }}">
-            <img src="{{asset('image/user.svg')}}" alt="Профиль" onclick="window.location.href='#'">
-            </a>
+    <div class="header-kateg">
+        <a href="{{ route('catalog') }}"><p>СКЕЙТБОРДЫ</p></a>
+        <a href="{{ route('catalog') }}"><p>ОДЕЖДА</p></a>
+        <a href="{{ route('catalog') }}"><p>ОБУВЬ</p></a>
+        <a href="{{ route('catalog') }}"><p>АКССЕСУАРЫ</p></a>
+    </div>
+
+
+
+    <div class="nav-buttons">
+        <div class="cart-icon-wrapper" id="cartBtn">
+            <img src="{{ asset('image/korzina.svg') }}" alt="корзина">
+            <span class="cart-count-badge">0</span>
         </div>
+        <a href="{{ route('profl') }}">
+            <img src="{{ asset('image/user.svg') }}" alt="Профиль">
+        </a>
+    </div>
 </header>
+
+
 <div class="cont-body">
 <div class="profile-container">
         <!-- Блок с формой для изменения информации -->
@@ -113,7 +110,35 @@
 </div>
 </div>
 
-        <footer >
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-popup" id="cartPopup">
+    <div class="cart-content">
+        <div class="cart-header">
+            <h2>Ваша корзина</h2>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart-message">
+                Ваша корзина пуста
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span id="cartTotal">0</span> руб.
+            </div>
+            <div class="cart-buttons">
+                <button class="checkout-btn" id="checkoutBtn" data-url="{{ route('register') }}">Оформить заказ</button>
+                <button class="continue-shopping" id="continueShopping">Продолжить покупки</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <footer >
         <div class="container-footer">
             <div class="for-client">
             <h1>Для покупателей</h1>
@@ -147,5 +172,15 @@
     </footer>
 
     <script src="{{ asset('js/profile.js') }}"></script>
+
+     <script>
+    // Передаем данные из Laravel в JS глобально
+    window.Laravel = {
+        csrfToken: '{{ csrf_token() }}',
+        cartAddUrl: '{{ route("cart.add") }}'
+    };
+    </script>
+    <script src="{{ asset('js/catalog.js') }}"></script>
+    <script src="{{ asset('js/cart.js') }}"></script>
 </body>
 </html>

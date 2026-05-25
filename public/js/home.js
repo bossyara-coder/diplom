@@ -1,104 +1,117 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const sliderTrack = document.querySelector('.slider-track');
-    const prevButton = document.querySelector('.prev');
-    const nextButton = document.querySelector('.next');
-    const slides = document.querySelectorAll('.slide');
-    const slideWidth = slides[0].clientWidth; // Ширина одного слайда
-    let currentIndex = 2; // Начинаем с первого основного слайда (после дубликатов)
+    
+    // ==========================================================================
+    // 1. ЛОГИКА СЛАЙДЕРА ВНУТРИ КАРТОЧЕК ТОВАРОВ
+    // ==========================================================================
+    const cards = document.querySelectorAll('.product-card');
 
-    // Функция для перехода к следующему слайду
-    function nextSlide() {
-        currentIndex++;
-        if (currentIndex >= slides.length - 2) {
-            // Если дошли до конца, мгновенно переходим к началу
-            sliderTrack.style.transition = 'none';
-            sliderTrack.style.transform = `translateX(${-2 * slideWidth}px)`;
-            currentIndex = 2; // Возвращаемся к первому основному слайду
-            setTimeout(() => {
-                sliderTrack.style.transition = 'transform 0.5s ease-in-out';
-                nextSlide();
-            }, 0);
-        } else {
-            sliderTrack.style.transform = `translateX(${-currentIndex * slideWidth}px)`;
-        }
-    }
+    cards.forEach(card => {
+        const slides = card.querySelectorAll('.product-slide');
+        const indicators = card.querySelectorAll('.indicator');
+        const prevBtn = card.querySelector('.prev-btn');
+        const nextBtn = card.querySelector('.next-btn');
 
-    // Функция для перехода к предыдущему слайду
-    function prevSlide() {
-        currentIndex--;
-        if (currentIndex < 0) {
-            // Если дошли до начала, мгновенно переходим к концу
-            sliderTrack.style.transition = 'none';
-            sliderTrack.style.transform = `translateX(${-(slides.length - 3) * slideWidth}px)`;
-            currentIndex = slides.length - 3; // Возвращаемся к последнему основному слайду
-            setTimeout(() => {
-                sliderTrack.style.transition = 'transform 0.5s ease-in-out';
-                prevSlide();
-            }, 0);
-        } else {
-            sliderTrack.style.transform = `translateX(${-currentIndex * slideWidth}px)`;
-        }
-    }
+        if (!prevBtn || !nextBtn) return;
 
-    // Автоматическая прокрутка
-    let autoSlide = setInterval(nextSlide, 3000);
+        const updateSlider = (index) => {
+            slides.forEach((s, i) => s.classList.toggle('active', i === index));
+            indicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
+        };
 
-    // Остановка автоматической прокрутки при наведении
-    sliderTrack.addEventListener('mouseenter', () => clearInterval(autoSlide));
-    sliderTrack.addEventListener('mouseleave', () => autoSlide = setInterval(nextSlide, 3000));
-
-    // Навигация с помощью кнопок
-    nextButton.addEventListener('click', nextSlide);
-    prevButton.addEventListener('click', prevSlide);
-});
-
-
-
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Находим все слайдеры на странице с классом .slider3
-    const sliders3 = document.querySelectorAll('.slider3');
-  
-    sliders3.forEach((slider3) => {
-      const slides3 = slider3.querySelector('.slides3');
-      const indicators3 = slider3.querySelectorAll('.indicator3');
-      const totalSlides3 = slider3.querySelectorAll('.slide3').length;
-      let currentIndex3 = 0;
-  
-      function showSlide3(index3) {
-        // Корректировка индекса для цикличности
-        if (index3 < 0) {
-          index3 = totalSlides3 - 1;
-        } else if (index3 >= totalSlides3) {
-          index3 = 0;
-        }
-  
-        const offset3 = -index3 * 100;
-        slides3.style.transform = `translateX(${offset3}%)`;
-  
-        // Обновление индикаторов
-        indicators3.forEach((indicator3, i) => {
-          if (i === index3) {
-            indicator3.classList.add('active3');
-          } else {
-            indicator3.classList.remove('active3');
-          }
+        nextBtn.addEventListener('click', () => {
+            let activeIndex = Array.from(slides).findIndex(s => s.classList.contains('active'));
+            updateSlider((activeIndex + 1) % slides.length);
         });
-  
-        currentIndex3 = index3;
-      }
-  
-      // Переключение по индикаторам
-      indicators3.forEach((indicator3, index3) => {
-        indicator3.addEventListener('click', () => {
-          showSlide3(index3);
+
+        prevBtn.addEventListener('click', () => {
+            let activeIndex = Array.from(slides).findIndex(s => s.classList.contains('active'));
+            updateSlider((activeIndex - 1 + slides.length) % slides.length);
         });
-      });
-  
-      // Автоматическое переключение слайдов (опционально)
-      setInterval(() => {
-        showSlide3(currentIndex3 + 1);
-      }, 4000); // Интервал 3 секунды
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => updateSlider(index));
+        });
     });
-  });
+
+
+    // ==========================================================================
+    // 2. ИСПРАВЛЕННАЯ ЛОГИКА ПЕРЕТАСКИВАНИЯ И АВТОПРОКРУТКИ БРЕНДОВ (ЧЕРЕЗ JS)
+    // ==========================================================================
+    const tickerContainer = document.querySelector('.brand-ticker-container');
+    const tickerInner = document.querySelector('.brand-ticker-inner');
+
+    if (tickerContainer && tickerInner) {
+        let isDown = false;
+        let isHovered = false;
+        let startX;
+        let translateX = 0;
+        let speed = 0.8; // Скорость автопрокрутки (чем меньше, тем плавнее)
+
+        // Главный цикл анимации (requestAnimationFrame вместо setInterval/CSS)
+        function animate() {
+            // Двигаем только если мышка НЕ зажата и НЕ наведена на контейнер
+            if (!isDown && !isHovered) {
+                translateX -= speed;
+                
+                // Вычисляем ширину одного набора брендов
+                const halfWidth = tickerInner.scrollWidth / 2;
+                
+                // Если прокрутили первый набор целиком, бесшовно сбрасываем позицию на 0
+                if (Math.abs(translateX) >= halfWidth) {
+                    translateX = 0;
+                }
+                
+                tickerInner.style.transform = `translateX(${translateX}px)`;
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // Запуск анимации
+        requestAnimationFrame(animate);
+
+        // События мыши для остановки при наведении
+        tickerContainer.addEventListener('mouseenter', () => {
+            isHovered = true;
+        });
+
+        tickerContainer.addEventListener('mouseleave', () => {
+            isHovered = false;
+            if (isDown) {
+                isDown = false;
+                tickerContainer.classList.remove('grabbing');
+            }
+        });
+
+        // Зажатие мышки (Начало Drag)
+        tickerContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            tickerContainer.classList.add('grabbing');
+            startX = e.pageX - translateX;
+        });
+
+        // Отпустили мышку (Конец Drag)
+        tickerContainer.addEventListener('mouseup', () => {
+            if (!isDown) return;
+            isDown = false;
+            tickerContainer.classList.remove('grabbing');
+
+            // Корректируем позицию после перетаскивания, чтобы избежать пустых зон
+            const halfWidth = tickerInner.scrollWidth / 2;
+            if (translateX > 0) {
+                translateX -= halfWidth;
+            } else if (Math.abs(translateX) >= halfWidth) {
+                translateX += halfWidth;
+            }
+        });
+
+        // Движение мыши (Перетаскивание)
+        tickerContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault(); // Запрещаем выделение картинок блоком
+            
+            // Вычисляем новую позицию на основе движения курсора
+            translateX = e.pageX - startX;
+            tickerInner.style.transform = `translateX(${translateX}px)`;
+        });
+    }
+});

@@ -3,325 +3,371 @@
 <head>
     <title>TRAILBLAZE</title>
     <link rel="stylesheet" href="{{asset('css/style-gg.css')}}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style-catalog.css') }}">
+    <meta name="auth-check" content="{{ Auth::check() ? 'true' : 'false' }}">
+
 </head>
-<body >
+<body>
 
-    <header class="header">
-        <div class="logo">
-          <a href="{{ route('home')}}">
-          <img src="{{asset('image/TB.png')}}" alt="TRAILBLAZE">
-          </a>
-            
-        </div>
+  <div id="laravel-cart-data" data-cart='@json(session("cart", []))' style="display: none;"></div>
 
-<div class="header-kateg">
-        <a href="{{ route('catalog') }}">
-            <p>СКЕЙТБОРДЫ</p>  
-         </a>
-         <a href="{{ route('catalog') }}">
-          <p>ОДЕЖДА</p>
-         </a>
-         <a href="{{ route('catalog') }}">
-          <p>ОБУВЬ</p>
-         </a>
-         <a href="{{ route('catalog') }}">
-         <p>АКССЕСУАРЫ</p>
-         </a>
+  <header class="header">
+    <div class="logo">
+       <a href="{{ route('home') }}">
+          <img src="{{ asset('image/TB.png') }}" alt="TRAILBLAZE">
+       </a> 
     </div>
 
+    <div class="header-kateg">
+        <a href="{{ route('catalog') }}"><p>СКЕЙТБОРДЫ</p></a>
+        <a href="{{ route('catalog') }}"><p>ОДЕЖДА</p></a>
+        <a href="{{ route('catalog') }}"><p>ОБУВЬ</p></a>
+        <a href="{{ route('catalog') }}"><p>АКССЕСУАРЫ</p></a>
+    </div>
 
+<div class="search-container">
+        <input type="text" id="search-input" placeholder="Поиск товаров...">
+        <button class="search-button" id="search-button">Поиск</button>
+    </div>
 
-        <div class="nav-buttons">
-          <a href="{{ route('catalog') }}">
-            <img src="{{asset('image/korzina.svg')}}" alt="корзина">
-          </a>
-          <a href="{{ route('profl') }}"> 
-            <img src="{{asset('image/user.svg')}}" alt="Профиль">
-          </a>
+    <div class="nav-buttons">
+        <div class="cart-icon-wrapper" id="cartBtn">
+            <img src="{{ asset('image/korzina.svg') }}" alt="корзина">
+            <span class="cart-count-badge">0</span>
         </div>
-    </header>
+        <a href="{{ route('profl') }}">
+            <img src="{{ asset('image/user.svg') }}" alt="Профиль">
+        </a>
+    </div>
+  </header>
 
-
-    <div class="container-main-block">
-      <div class="block">
-          <div class="image-container">
-            <img src="{{asset('image/fon2.jpg')}}" alt="">
-          </div>
-          <div class="block-text"></div>
-            <div class="container-text">
-              <div class="text-ready">
-                <h1>Готовые скейтборды</h1>
-                <p>Отличный вариант для первого скейта. Все компоненты идеально собраны. Испытай его уже сегодня!</p>
-              </div>
-              <button type="button" class="button-katalog">
-                  <a href="{{ route('catalog') }}">Перейти в каталог</a>
-              </button>
-          </div>
+  <section class="hero-section">
+    <div class="hero-container">
         
+        <div class="hero-content">
+            <h1 class="hero-title">Готовые скейтборды</h1>
+            <p class="hero-description">
+                Отличный вариант для первого скейта. Все компоненты идеально собраны. 
+                Испытай его уже сегодня!
+            </p>
+            <a href="{{ route('catalog') }}" class="hero-button">Перейти в каталог</a>
+        </div>
+        
+        <div class="hero-image-wrap">
+            <img src="{{ asset('image/fon2.jpg') }}" alt="Каталог скейтбордов">
+        </div>
+
+    </div>
+  </section>
+
+  <section class="products-section">
+      <div class="section-header">
+          <h2 class="section-title">Хиты продаж</h2>
+          <p class="section-subtitle">Свежие комплиты от лучших мировых брендов</p>
       </div>
-    </div>
 
-    <div class="container-ready-skate ">
-        <div class="block-sk">
-            <div class="slider3">
-                <div class="slides3">
-                  <div class="slide3 active3">
-                    <img src="{{asset('image/skate/mason1.jpg')}}" alt="Image 1">
+      <div class="products-grid">
+
+          <div class="product-card">
+              <div class="product-slider">
+                  <div class="product-slides">
+                      <div class="product-slide active">
+                          <img src="{{ asset('image/skate/mason1.jpg') }}" alt="Mason On The Rocks 1">
+                      </div>
+                      <div class="product-slide">
+                          <img src="{{ asset('image/skate/mason2.jpg') }}" alt="Mason On The Rocks 2">
+                      </div>
                   </div>
-                  <div class="slide3">
-                    <img src="{{asset('image/skate/mason2.jpg')}}" alt="Image 2">
+                  <button class="slider-btn prev-btn" aria-label="Предыдущий слайд">&#10094;</button>
+                  <button class="slider-btn next-btn" aria-label="Следующий слайд">&#10095;</button>
+                  <div class="product-indicators">
+                      <span class="indicator active" data-slide="0"></span>
+                      <span class="indicator" data-slide="1"></span>
                   </div>
-                </div>
-                <div class="indicators3">
-                  <span class="indicator3 active3" data-slide="0"></span>
-                  <span class="indicator3" data-slide="1"></span>
-                </div>
-            </div>
-            <div class="text-complete">
-              <h1>Mason On The Rocks Skateboard Complete</h1>
-              <p>12 099 ₽</p>
-            </div>
-        </div>
-        
-        <div class="block-sk">
-            <div class="slider3">
-                <div class="slides3">
-                    <div class="slide3 active3">
-                        <img src="{{asset('image/skate/hello_kit1.jpg')}}" alt="Image 1">
-                    </div>
-                    <div class="slide3">
-                        <img src="{{asset('image/skate/hello_kit2.jpg')}}" alt="Image 2">
-                    </div>
-                </div>
-                <div class="indicators3">
-                    <span class="indicator3 active3" data-slide="0"></span>
-                    <span class="indicator3" data-slide="1"></span>
-                </div>
-            </div>
-          <div class="text-complete">
-            <h1>Bannerot Hello Kitty 50 Complete</h1>
-            <p>9 090 ₽</p>
-          </div>
-        </div>
-
-        <div class="block-sk">
-        <div class="slider3">
-                <div class="slides3">
-                    <div class="slide3 active3">
-                        <img src="{{asset('image/skate/pacman1.jpg')}}" alt="Image 1">
-                    </div>
-                    <div class="slide3">
-                        <img src="{{asset('image/skate/pacman2.jpeg')}}" alt="Image 2">
-                    </div>
-                </div>
-                <div class="indicators3">
-                    <span class="indicator3 active3" data-slide="0"></span>
-                    <span class="indicator3" data-slide="1"></span>
-                </div>
-            </div>
-          <div class="text-complete">
-            <h1>Girl Pac-Man Complete</h1>
-            <p>8 699 ₽</p>
-          </div>
-        </div>
-
-        <div class="block-sk">
-        <div class="slider3">
-                <div class="slides3">
-                    <div class="slide3 active3">
-                        <img src="{{asset('image/skate/fir1.jpg')}}" alt="Image 1">
-                    </div>
-                    <div class="slide3">
-                        <img src="{{asset('image/skate/fir2.jpg')}}" alt="Image 2">
-                    </div>
-                </div>
-                <div class="indicators3">
-                    <span class="indicator3 active3" data-slide="0"></span>
-                    <span class="indicator3" data-slide="1"></span>
-                </div>
-            </div>
-          <div class="text-complete">
-            <h1>Flames Mini Skateboard Complete</h1>
-            <p>7 270 ₽</p>
-          </div>
-        </div>
-    </div>
-
-
-    <div class="container-component">
-        <div class="block-component">
-        <div class="image-container2">
-            <img src="{{asset('image/wolt.jpg')}}" alt="">
-          </div>
-          <div class="block-text2"></div>
-            <div class="container-text2">
-              <div class="text-ready">
-                <h1>Комплектующие для скейта</h1>
-                <p>Помимо собраных скейтбордов у нас есть и отдельные запчасти для него. Соберите свой скейтборд прямо сейчас!</p>
               </div>
-              <button type="button" class="button-katalog">
-                  <a href="{{ route('catalog') }}">Перейти в каталог</a>
-              </button>
-          </div>
-        </div>
-    </div>
-
-    <div class="container-component-skate ">
-        <div class="block-sk">
-            <div class="slider3">
-                <div class="slides3">
-                  <div class="slide3 active3">
-                    <img src="{{asset('image/comp/hku1.jpg')}}" alt="Image 1">
-                  </div>
-                  <div class="slide3">
-                    <img src="{{asset('image/comp/hku2.jpg')}}" alt="Image 2">
-                  </div>
-                </div>
-                <div class="indicators3">
-                  <span class="indicator3 active3" data-slide="0"></span>
-                  <span class="indicator3" data-slide="1"></span>
-                </div>
-            </div>
-            <div class="text-complete">
-              <h1>Шкурка Bear Cutout Regular Grip</h1>
-              <p>775 ₽</p>
-            </div>
-        </div>
-        
-        <div class="block-sk">
-            <div class="podve">
-            <img src="{{asset('image/comp/pod.jpg')}}" alt="Image 1">
-            </div>
-                
-          <div class="text-complete podves">
-            <h1>Подвески Severed Hollow Lights Thunder</h1>
-            <p>8 550 ₽</p>
-          </div>
-        </div>
-
-        <div class="block-sk">
-        <div class="slider3">
-                <div class="slides3">
-                    <div class="slide3 active3">
-                        <img src="{{asset('image/comp/wh1.jpg')}}" alt="Image 1">
-                    </div>
-                    <div class="slide3">
-                        <img src="{{asset('image/comp/wh2.jpg')}}" alt="Image 2">
-                    </div>
-                </div>
-                <div class="indicators3">
-                    <span class="indicator3 active3" data-slide="0"></span>
-                    <span class="indicator3" data-slide="1"></span>
-                </div>
-            </div>
-          <div class="text-complete">
-            <h1>Колеса Spitfire 80hd Fade Conical Full Skateboard</h1>
-            <p>4 150 ₽</p>
-          </div>
-        </div>
-
-        <div class="block-sk">
-            <div class="podve">
-            <img src="{{asset('image/comp/be.jpg')}}" alt="Image 1">
-            </div>
-                
-          <div class="text-complete podves">
-            <h1>Подшипники Spaceballs Abec 7 Bearings</h1>
-            <p>2 050 ₽</p>
-          </div>
-        </div>
-    </div>
-
-
-    <h1 class="text-kategori">Популярные бренды</h1>
-        <div class="brands-slider">
-          <div class="slider-container">
-              <div class="slider-track">
-                  <!-- Логотипы -->
-                  <div class="slide"><img src="{{asset('image/br1.png')}}" alt="Brand 1"></div>
-                  <div class="slide"><img src="{{asset('image/br2.webp')}}" alt="Brand 2"></div>
-                  <div class="slide"><img src="{{asset('image/br3.webp')}}" alt="Brand 3"></div>
-                  <div class="slide"><img src="{{asset('image/br4.webp')}}" alt="Brand 4"></div>
-                  <div class="slide"><img src="{{asset('image/br5.webp')}}" alt="Brand 5"></div>
-                  <div class="slide"><img src="{{asset('image/dc.png')}}" alt="Brand 6"></div>
-                  <div class="slide"><img src="{{asset('image/br7.webp')}}" alt="Brand 7"></div>
-                  <div class="slide"><img src="{{asset('image/br8.webp')}}" alt="Brand 8"></div>
-                  <div class="slide"><img src="{{asset('image/br9.webp')}}" alt="Brand 9"></div>
-                  <div class="slide"><img src="{{asset('image/br10.webp')}}" alt="Brand 10"></div>
-                  <div class="slide"><img src="{{asset('image/br11.webp')}}" alt="Brand 11"></div>
-                  <div class="slide"><img src="{{asset('image/br12.webp')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br13.webp')}}" alt="Brand 13"></div>
-                  <div class="slide"><img src="{{asset('image/br14.webp')}}" alt="Brand 14"></div>
-                  <div class="slide"><img src="{{asset('image/br15.webp')}}" alt="Brand 15"></div>
-                  <div class="slide"><img src="{{asset('image/br16.webp')}}" alt="Brand 16"></div>
-                  <div class="slide"><img src="{{asset('image/br17.webp')}}" alt="Brand 17"></div>
-                  <div class="slide"><img src="{{asset('image/br18.webp')}}" alt="Brand 18"></div>
-                  <div class="slide"><img src="{{asset('image/br19.webp')}}" alt="Brand 19"></div>
-                  <div class="slide"><img src="{{asset('image/br20.webp')}}" alt="Brand 20"></div>
-                  <div class="slide"><img src="{{asset('image/br21.webp')}}" alt="Brand 21"></div>
-                  <div class="slide"><img src="{{asset('image/br22.webp')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br23.webp')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br24.webp')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br25.webp')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br26.webp')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br27.png')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br28.png')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br29.webp')}}" alt="Brand 12"></div>
-                  <div class="slide"><img src="{{asset('image/br30.webp')}}" alt="Brand 12"></div>
+              <div class="product-info">
+                  <h3 class="product-name">Mason On The Rocks Skateboard Complete</h3>
+                  <p class="product-price">12 099 ₽</p>
               </div>
           </div>
-    <!-- Стрелки навигации -->
-    <button class="prev">&#10094;</button>
-    <button class="next">&#10095;</button>
-</div>
 
+          <div class="product-card">
+              <div class="product-slider">
+                  <div class="product-slides">
+                      <div class="product-slide active">
+                          <img src="{{ asset('image/skate/hello_kit1.jpg') }}" alt="Bannerot Hello Kitty 1">
+                      </div>
+                      <div class="product-slide">
+                          <img src="{{ asset('image/skate/hello_kit2.jpg') }}" alt="Bannerot Hello Kitty 2">
+                      </div>
+                  </div>
+                  <button class="slider-btn prev-btn" aria-label="Предыдущий слайд">&#10094;</button>
+                  <button class="slider-btn next-btn" aria-label="Следующий слайд">&#10095;</button>
+                  <div class="product-indicators">
+                      <span class="indicator active" data-slide="0"></span>
+                      <span class="indicator" data-slide="1"></span>
+                  </div>
+              </div>
+              <div class="product-info">
+                  <h3 class="product-name">Bannerot Hello Kitty 50 Complete</h3>
+                  <p class="product-price">9 090 ₽</p>
+              </div>
+          </div>
 
-    <h1 class="text-kategori">Категории</h1>
-    <div class="container-kategori">
-        <div class="block-kategor">
-          <div class="clothes-img kategoriim">
-            <img src="{{asset('image/trsh.png')}}" alt="">
+          <div class="product-card">
+              <div class="product-slider">
+                  <div class="product-slides">
+                      <div class="product-slide active">
+                          <img src="{{ asset('image/skate/pacman1.jpg') }}" alt="Girl Pac-Man 1">
+                      </div>
+                      <div class="product-slide">
+                          <img src="{{ asset('image/skate/pacman2.jpeg') }}" alt="Girl Pac-Man 2">
+                      </div>
+                  </div>
+                  <button class="slider-btn prev-btn" aria-label="Предыдущий слайд">&#10094;</button>
+                  <button class="slider-btn next-btn" aria-label="Следующий слайд">&#10095;</button>
+                  <div class="product-indicators">
+                      <span class="indicator active" data-slide="0"></span>
+                      <span class="indicator" data-slide="1"></span>
+                  </div>
+              </div>
+              <div class="product-info">
+                  <h3 class="product-name">Girl Pac-Man Complete</h3>
+                  <p class="product-price">8 699 ₽</p>
+              </div>
           </div>
-          <div class="clothes text">
-              <p>Большой выбор одежды на любой вкус</p>
+
+          <div class="product-card">
+              <div class="product-slider">
+                  <div class="product-slides">
+                      <div class="product-slide active">
+                          <img src="{{ asset('image/skate/fir1.jpg') }}" alt="Flames Mini 1">
+                      </div>
+                      <div class="product-slide">
+                          <img src="{{ asset('image/skate/fir2.jpg') }}" alt="Flames Mini 2">
+                      </div>
+                  </div>
+                  <button class="slider-btn prev-btn" aria-label="Предыдущий слайд">&#10094;</button>
+                  <button class="slider-btn next-btn" aria-label="Следующий слайд">&#10095;</button>
+                  <div class="product-indicators">
+                      <span class="indicator active" data-slide="0"></span>
+                      <span class="indicator" data-slide="1"></span>
+                  </div>
+              </div>
+              <div class="product-info">
+                  <h3 class="product-name">Flames Mini Skateboard Complete</h3>
+                  <p class="product-price">7 270 ₽</p>
+              </div>
           </div>
+
+      </div>
+  </section>
+
+  <section class="components-section">
+        <div class="components-container">
+
+            <div class="comp-image-wrap">
+                <img src="{{ asset('image/wolt.jpg') }}" alt="Комплектующие для скейта">
+            </div>
+
+            <div class="comp-content">
+                <h2 class="comp-title">Комплектующие для скейта</h2>
+                <p class="comp-description">
+                    Помимо собранных скейтбордов у нас есть и отдельные запчасти для них. 
+                    Соберите свой кастомный скейтборд прямо сейчас!
+                </p>
+                <a href="{{ route('catalog') }}" class="comp-button">В каталог запчастей</a>
+            </div>
+
         </div>
+  </section>
 
-        <div class="block-kategor">
-          <div class="clothes-img kategoriim">
-            <img src="{{asset('image/conv.png')}}" alt="">
-          </div>
-          <div class="clothes text">
-            <p>Разнообразие в ассортименте обуви</p>
-          </div>
-        </div>
-
-        <div class="block-kategor">
-          <div class="clothes-img kategoriim">
-            <img src="{{asset('image/tool.png')}}" alt="">
-          </div>
-          <div class="clothes text">
-            <p>Акссесуары для вас</p>
-          </div>
-        </div>
+  <section class="products-section">
+    <div class="section-header">
+        <h2 class="section-title">Запчасти и комплектующие</h2>
+        <p class="section-subtitle">Проверенные детали для твоего кастома</p>
     </div>
 
+    <div class="products-grid">
+        
+        <div class="product-card">
+            <div class="product-slider">
+                <div class="product-slides">
+                    <div class="product-slide active"><img src="{{ asset('image/comp/hku1.jpg') }}" alt="Grip 1"></div>
+                    <div class="product-slide"><img src="{{ asset('image/comp/hku2.jpg') }}" alt="Grip 2"></div>
+                </div>
+                <button class="slider-btn prev-btn">&#10094;</button>
+                <button class="slider-btn next-btn">&#10095;</button>
+                <div class="product-indicators">
+                    <span class="indicator active" data-slide="0"></span>
+                    <span class="indicator" data-slide="1"></span>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Шкурка Bear Cutout Regular Grip</h3>
+                <p class="product-price">775 ₽</p>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-slider">
+                <div class="product-slides">
+                    <div class="product-slide active">
+                        <img src="{{ asset('image/comp/pod.jpg') }}" alt="Trucks">
+                    </div>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Подвески Severed Hollow Lights Thunder</h3>
+                <p class="product-price">8 550 ₽</p>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-slider">
+                <div class="product-slides">
+                    <div class="product-slide active"><img src="{{ asset('image/comp/wh1.jpg') }}" alt="Wheels"></div>
+                    <div class="product-slide"><img src="{{ asset('image/comp/wh2.jpg') }}" alt="Wheels"></div>
+                </div>
+                <button class="slider-btn prev-btn">&#10094;</button>
+                <button class="slider-btn next-btn">&#10095;</button>
+                <div class="product-indicators">
+                    <span class="indicator active" data-slide="0"></span>
+                    <span class="indicator" data-slide="1"></span>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Колеса Spitfire 80hd Fade Conical Full</h3>
+                <p class="product-price">4 150 ₽</p>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-slider">
+                <div class="product-slides">
+                    <div class="product-slide active">
+                        <img src="{{ asset('image/comp/be.jpg') }}" alt="Bearings">
+                    </div>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Подшипники Spaceballs Abec 7 Bearings</h3>
+                <p class="product-price">2 050 ₽</p>
+            </div>
+        </div>
+
+    </div>
+  </section>
+
+  <section class="brands-section">
+        <div class="section-header">
+            <h2 class="section-title">Популярные бренды</h2>
+        </div>
+    
+                @php
+                  // Список файлов из папки public/image/brands
+                  $brands = [
+                      'br1.png',  'br2.webp', 'br3.webp', 'br4.webp', 'br5.webp',
+                      'br6.webp', 'br7.webp', 'br8.webp', 'br9.webp', 'br10.webp', 'br11.webp',
+                      'br12.webp', 'br13.webp', 'br14.webp', 'br15.webp', 'br16.webp', 'br17.webp',
+                      'br18.webp', 'br19.webp', 'br20.webp', 'br21.webp', 'br22.webp', 'br23.webp',
+                      'br24.webp', 'br25.webp', 'br26.webp', 'br27.png', 'br28.png', 'br29.webp', 'br30.webp'
+                  ];
+              @endphp
+    
+      <div class="brand-ticker-container">
+        <div class="brand-ticker-inner">
+            <div class="brand-ticker-track">
+                @foreach($brands as $brand)
+                    <div class="brand-item">
+                        <img src="{{ asset('image/brands/' . $brand) }}" alt="Brand">
+                    </div>
+                @endforeach
+            </div>
+            <div class="brand-ticker-track" aria-hidden="true">
+                @foreach($brands as $brand)
+                    <div class="brand-item">
+                        <img src="{{ asset('image/brands/' . $brand) }}" alt="Brand">
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+
+  <section class="categories-section">
+    <div class="section-header">
+        <h2 class="section-title">Категории</h2>
+    </div>
+
+    <div class="categories-grid">
+        <a href="#" class="category-card">
+            <div class="category-img">
+                <img src="{{ asset('image/trsh.png') }}" alt="Одежда">
+            </div>
+            <div class="category-text">
+                <p>Одежда</p>
+            </div>
+        </a>
+
+        <a href="#" class="category-card">
+            <div class="category-img">
+                <img src="{{ asset('image/conv.png') }}" alt="Обувь">
+            </div>
+            <div class="category-text">
+                <p>Обувь</p>
+            </div>
+        </a>
+
+        <div class="category-card">
+            <div class="category-img">
+                <img src="{{ asset('image/tool.png') }}" alt="Аксессуары">
+            </div>
+            <div class="category-text">
+                <p>Аксессуары</p>
+            </div>
+        </div>
+    </div>
+  </section>
 
 
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-popup" id="cartPopup">
+      <div class="cart-content">
+          <div class="cart-header">
+              <h2>Ваша корзина</h2>
+              <button class="close-cart">&times;</button>
+          </div>
+          <div class="cart-items" id="cartItems">
+              <div class="empty-cart-message">
+                  Ваша корзина пуста
+              </div>
+          </div>
+          <div class="cart-footer">
+              <div class="cart-total">
+                  <span>Итого:</span>
+                  <span id="cartTotal">0</span> руб.
+              </div>
+              <div class="cart-buttons">
+                  <button class="checkout-btn" id="checkoutBtn" data-url="{{ route('register') }}">Оформить заказ</button>
+                  <button class="continue-shopping" id="continueShopping">Продолжить покупки</button>
+              </div>
+          </div>
+      </div>
+  </div>
 
-
-    <footer >
-        <div class="container-footer">
-            <div class="for-client">
+  
+  <footer >
+    <div class="container-footer">
+          <div class="for-client">
             <h1>Для покупателей</h1>
             <a href="">доставка</a> <br>
             <a href="">способы оплаты</a> <br>
             <a href="">вопросы и ответы</a> <br>
             <a href="">об упаковке товаров</a>
-            </div>
-            <div class="our-media">
-            <h1>Наши соц сети</h1>
+          </div>
+          <div class="our-media">
+          <h1>Наши соц сети</h1>
             <div class="img-media">
               <a href="https://www.instagram.com/">
                 <img src="{{ asset('image/Instagram.svg') }}" alt="">
@@ -336,15 +382,23 @@
                 <img src="{{ asset('image/X.svg') }}" alt="" class="X-tw">
               </a>
             </div>
-            </div>
-        </div>
-
-        <div class="copy">
-            <p>2025 © TRAILBLAZE</p>
-        </div>
-    </footer>
+          </div>
+    </div>
+    <div class="copy">
+        <p>2025 © TRAILBLAZE</p>
+    </div>
+  </footer>
 
     
-    <script src="{{asset('js/home.js')}}"></script>
+  <script src="{{asset('js/home.js')}}"></script>
+  <script>
+    // Данные Laravel остаются здесь
+    window.Laravel = {
+        csrfToken: '{{ csrf_token() }}',
+        cartAddUrl: '{{ route("cart.add") }}'
+    };
+  </script>
+  <script src="{{ asset('js/catalog.js') }}"></script>
+  <script src="{{ asset('js/cart.js') }}"></script>
 </body>
 </html>

@@ -142,3 +142,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 Route::get('/admin/edit/{id}', [App\Http\Controllers\AdminController::class, 'edit'])->name('admin.edit');
 // Обновить данные в базе
 Route::put('/admin/update/{id}', [App\Http\Controllers\AdminController::class, 'update'])->name('admin.update');
+
+
+// Маршрут для сохранения оценки (доступен только авторизованным)
+Route::post('/product/{id}/rate', [App\Http\Controllers\CatalogController::class, 'rate'])
+    ->name('product.rate')
+    ->middleware('auth');
+
+
+
+Route::post('/product/{id}/comment', [\App\Http\Controllers\CatalogController::class, 'storeComment'])->name('comment.store')->middleware('auth');
+Route::delete('/comment/{id}', [\App\Http\Controllers\CatalogController::class, 'destroyComment'])->name('comment.destroy')->middleware('auth');

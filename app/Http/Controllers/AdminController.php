@@ -37,7 +37,14 @@ class AdminController extends Controller
             'price' => 'required|numeric',
             'image' => 'required|image|max:2048',
             'description' => 'nullable',
-        ]);
+            'article' => 'required|digits:6|unique:products,article',
+        ], [
+            // Кастомные сообщения об ошибках
+            'article.unique' => 'Товар с таким артикулом уже существует!',
+            'article.digits' => 'Артикул должен состоять ровно из 6 цифр!',
+            'article.required' => 'Введите артикул!'
+        ]
+        );
 
         $validated['category'] = $category;
 

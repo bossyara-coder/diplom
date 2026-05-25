@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,9 +38,9 @@
         <input 
             type="text" 
             id="search-input" 
-            placeholder="поиск товаров..."
-            aria-label="поиск товаров">
-        <button class="search-button" id="search-button">очистить</button>
+            placeholder="Поиск товаров..."
+            aria-label="Поиск товаров">
+        <button class="search-button" id="search-button">Очистить</button>
     </div>
 
     <div class="nav-buttons">
@@ -64,7 +63,7 @@
 </header>
 
 <div class="container">
-    <h1>Каталог</h1>
+    <h1 class="cataloger">Каталог</h1>
         
     <div class="filters">
         <button class="filter-button active" data-filter="all">Все</button>
@@ -81,7 +80,8 @@
         <div class="product-item" 
             data-category="{{ $product->category }}" 
             data-id="{{ $product->id }}" 
-            data-price="{{ $product->price }}">
+            data-price="{{ $product->price }}"
+            data-article="{{ $product->article }}">
         
             <div class="img-catalog">
                 <a href="{{ route('product.show', $product->id) }}">
